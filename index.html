@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>MaintenancePe — Launching Soon</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+--ink:#08080D;
+--paper:#F7F6F2;
+--surface:#FFFFFF;
+--sage:#156649;
+--sage-bright:#27B97F;
+--sage-light:#E4F4EE;
+--gold:#B8902A;
+--border:rgba(8,8,13,0.08);
+--border-strong:rgba(8,8,13,0.14);
+--muted:#6E7480;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;cursor:none;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;}
+.cursor{width:12px;height:12px;background:var(--ink);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s,background 0.2s;}
+.cursor-ring{width:40px;height:40px;border:1.5px solid rgba(8,8,13,0.25);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.1s ease;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:0.5;}
+nav{padding:32px 48px;display:flex;align-items:center;justify-content:center;background:transparent;}
+.logo{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;letter-spacing:-0.04em;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px;}
+.logo-mark{width:36px;height:36px;background:var(--ink);border-radius:11px;display:flex;align-items:center;justify-content:center;}
+.logo-mark svg{width:20px;height:20px;}
+.logo-name span{color:var(--sage-bright);}
+.container{max-width:800px;margin:0 auto;padding:40px 24px;text-align:center;position:relative;z-index:2;}
+.hero-geo{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1;}
+.geo-blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:0.6;}
+.gb-1{width:500px;height:500px;background:rgba(21,102,73,0.12);top:-100px;left:-50px;}
+.gb-2{width:400px;height:400px;background:rgba(184,144,42,0.08);bottom:100px;right:-50px;}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border-strong);border-radius:100px;padding:8px 18px;font-size:12px;font-weight:500;color:var(--muted);margin-bottom:32px;box-shadow:0 2px 16px rgba(0,0,0,0.04);}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--sage-bright);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(39,185,127,0.4);}50%{box-shadow:0 0 0 6px rgba(39,185,127,0);}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(44px,7vw,84px);font-weight:800;line-height:0.95;letter-spacing:-0.05em;color:var(--ink);margin-bottom:24px;}
+h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--sage);}
+.subtitle{font-size:clamp(16px,2vw,19px);color:var(--muted);line-height:1.6;max-width:580px;margin:0 auto 40px;}
+.subtitle strong{color:var(--ink);}
+.form-box{background:var(--surface);border:1px solid var(--border);padding:32px;border-radius:28px;box-shadow:0 24px 64px rgba(8,8,13,0.04);max-width:520px;margin:0 auto;text-align:left;}
+.form-title{font-size:15px;font-weight:700;margin-bottom:16px;letter-spacing:-0.01em;display:flex;align-items:center;gap:8px;}
+.input-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.input-group label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;}
+input, select{width:100%;padding:14px 18px;border-radius:12px;border:1px solid var(--border-strong);background:var(--paper);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);transition:all 0.25s;}
+input:focus, select:focus{outline:none;border-color:var(--sage);background:var(--surface);box-shadow:0 0 0 4px var(--sage-light);}
+.submit-btn{width:100%;background:var(--ink);color:var(--paper);border:none;padding:16px;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:none;transition:all 0.25s;margin-top:8px;}
+.submit-btn:hover{background:var(--sage);box-shadow:0 8px 24px rgba(21,102,73,0.25);transform:translateY(-1px);}
+.ticker-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:40px;}
+.pill-badge{background:var(--surface);border:1px solid var(--border);padding:6px 16px;border-radius:100px;font-size:12px;font-weight:500;color:var(--muted);box-shadow:0 2px 8px rgba(0,0,0,0.02);}
+footer{background:#04040A;padding:32px 48px;color:var(--paper);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(255,255,255,0.05);font-size:13px;z-index:2;}
+.flag{font-size:16px;}
+</style>
+</head>
+<body>
+<div class="hero-geo">
+<div class="geo-blob gb-1"></div>
+<div class="geo-blob gb-2"></div>
+</div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<nav>
+<a href="#" class="logo">
+<div class="logo-mark">
+<svg viewBox="0 0 18 18" fill="none"><path d="M9 2L15 5.5V12.5L9 16L3 12.5V5.5L9 2Z" stroke="#27B97F" stroke-width="1.5" fill="none"/><circle cx="9" cy="9" r="2.5" fill="#27B97F"/></svg>
+</div>
+<div class="logo-name">MaintenancePe</div>
+</a>
+</nav>
+<div class="container">
+<div class="eyebrow">
+<span class="live-dot"></span>
+Phase 1 Core Engineering Architecture Locked
+</div>
+<h1>Your society.<br/>Reimagined <em>very soon.</em></h1>
+<p class="subtitle">
+We are building the complete fintech & local workspace marketplace engine for Co-operative Housing Societies. Pay maintenance natively via UPI, book vetted plumbers, and monitor community progress seamlessly.
+</p>
+<div class="form-box">
+<div class="form-title">⚡ Request Early Beta Access Vector</div>
+<form id="waitlistForm" onsubmit="handleWaitlistSubmit(event)">
+<div class="input-group">
+<label>Your Full Name</label>
+<input type="text" id="userName" required placeholder="e.g. Prince Kumar Tiwari"/>
+</div>
+<div class="input-group">
+<label>Registered Mobile Number (OTP Target)</label>
+<input type="tel" id="userMobile" required pattern="[0-9]{10}" placeholder="10-digit mobile number"/>
+</div>
+<div class="input-group">
+<label>Your Role Framework</label>
+<select id="userRole">
+<option value="member">Society Resident / Owner</option>
+<option value="society_admin">Managing Committee Member</option>
+<option value="worker">SevaSphere Service Specialist</option>
+</select>
+</div>
+<button type="submit" class="submit-btn">Join Priority Operational Registry →</button>
+</form>
+</div>
+<div class="ticker-row">
+<div class="pill-badge">🔒 Bank-Grade Mobile OTP Gateways</div>
+<div class="pill-badge">🛠️ SevaSphere™ Local Providers Marketplace</div>
+<div class="pill-badge">🌐 English · हिंदी · मराठी Full Localization</div>
+<div class="pill-badge">📍 Primary Expansion Hub: Boisar</div>
+</div>
+</div>
+<footer>
+<div style="opacity: 0.5;">&copy; 2026 MaintenancePe Inc. Secure Society Operations Ecosystem.</div>
+<div class="flag">Made with ❤️ for Bharat 🇮🇳</div>
+</footer>
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e=>{
+mx=e.clientX; my=e.clientY;
+cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+});
+function animRing(){
+rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+ring.style.left=rx+'px'; ring.style.top=ry+'px';
+requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('input, select, button, a').forEach(el=>{
+el.addEventListener('mouseenter',()=>{
+cursor.style.width='24px'; cursor.style.height='24px';
+cursor.style.background='var(--sage-bright)';
+ring.style.width='56px'; ring.style.height='56px';
+});
+el.addEventListener('mouseleave',()=>{
+cursor.style.width='12px'; cursor.style.height='12px';
+cursor.style.background='var(--ink)';
+ring.style.width='40px'; ring.style.height='40px';
+});
+});
+function handleWaitlistSubmit(e) {
+e.preventDefault();
+const name = document.getElementById('userName').value;
+const mobile = document.getElementById('userMobile').value;
+const role = document.getElementById('userRole').value;
+alert(`Greetings ${name}!\nYour priority verification token mapping your credentials successfully queued inside our Launch Registration Matrix under target scope profile: [${role}]. \n\nWe will alert you via WhatsApp parameters the instant the Boisar nodes roll active!`);
+document.getElementById('waitlistForm').reset();
+}
+</script>
+</body>
+</html>
